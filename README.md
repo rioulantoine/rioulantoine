@@ -17,11 +17,6 @@
 
 <div align="center">
 
-<img height="180" alt="Statistiques GitHub" src="https://github-readme-stats.vercel.app/api?username=rioulantoine&show_icons=true&hide_border=true&theme=tokyonight&count_private=true" />
-<img height="180" alt="Langages les plus utilisés" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rioulantoine&layout=compact&langs_count=8&hide_border=true&theme=tokyonight" />
-
-<br/>
-
 <img height="170" alt="Série de contributions" src="https://streak-stats.demolab.com?user=rioulantoine&hide_border=true&theme=tokyonight" />
 
 <br/>
