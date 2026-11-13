@@ -19,8 +19,4 @@
 
 <img height="170" alt="Série de contributions" src="https://streak-stats.demolab.com?user=rioulantoine&hide_border=true&theme=tokyonight" />
 
-<br/>
-
-<img alt="Activité de contributions" src="https://ghchart.rshah.org/36BCF7/rioulantoine" />
-
 </div>
