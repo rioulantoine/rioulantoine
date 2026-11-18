@@ -7,6 +7,7 @@ les SVG s'affichent avec Archivo Expanded et Geist partout, sans police à charg
 Le contenu se modifie dans donnees/profil.json, les chiffres viennent de donnees/contributions.json.
 """
 import datetime as dt
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -306,8 +307,13 @@ def ecrire(nom, contenu):
 def image(nom, alt, largeur="100%", lien=None):
     """Une carte dans ses deux thèmes : GitHub choisit selon le thème du visiteur."""
     alt = alt.replace('"', "&quot;")
-    balise = (f'<picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/{nom}-sombre.svg" />'
-              f'<img src="./cartes/{nom}-clair.svg" width="{largeur}" alt="{alt}" /></picture>')
+    # GitHub garde les images en cache par adresse : une empreinte du contenu dans l'adresse
+    # force l'affichage de la nouvelle version dès qu'une carte change.
+    def src(theme):
+        fichier = DOSSIER / f"{nom}-{theme}.svg"
+        return f"./cartes/{fichier.name}?v={hashlib.sha1(fichier.read_bytes()).hexdigest()[:8]}"
+    balise = (f'<picture><source media="(prefers-color-scheme: dark)" srcset="{src("sombre")}" />'
+              f'<img src="{src("clair")}" width="{largeur}" alt="{alt}" /></picture>')
     return f'<a href="{lien}">{balise}</a>' if lien else balise
 
 
