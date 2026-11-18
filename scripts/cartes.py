@@ -210,9 +210,8 @@ def grille(t):
     total = f'{CONTRIB["total"]:,}'.replace(",", "\u202f")
     corps = [
         cadre(L, h, t),
-        texte(TITRE, "CHAQUE JOUR,", 24, x0, 56, t["texte"], interlettre=-0.01),
-        texte(TITRE, "EN CASES", 24, x0 + TITRE.largeur("CHAQUE JOUR, ", 24, -0.01), 56, t["sourd"], interlettre=-0.01),
-        texte(MONO, f"{total} CONTRIBUTIONS - ACTUALISÉ CHAQUE JOUR", 10.5, L - 40, 54, t["sourd"], "end", 0.08),
+        texte(TITRE, "CONTRIBUTIONS", 24, x0, 56, t["texte"], interlettre=-0.01),
+        texte(MONO, f"{total} SUR 12 MOIS - ACTUALISÉ CHAQUE JOUR", 10.5, L - 40, 54, t["sourd"], "end", 0.08),
         f'<g class="p">{"".join(cases)}</g>', "".join(etiquettes), "".join(legende),
     ]
     style = (".p rect{animation:apparait .7s cubic-bezier(.23,1,.32,1) both}"
