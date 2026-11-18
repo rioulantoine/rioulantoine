@@ -176,70 +176,47 @@ def hero(t):
 
 
 def grille(t):
+    """Le calendrier de contributions, case par case, dans la gamme encre vers crème du site."""
     jours = CONTRIB["jours"]
-    h = 200
     debut = dt.date.fromisoformat(jours[0]["date"])
     decalage = (debut.weekday() + 1) % 7  # les semaines GitHub commencent le dimanche
     semaines = (len(jours) + decalage + 6) // 7
-    x0, y0 = 40, 82
-    pas = min(15.4, (L - 80) / semaines)
-    rayons = [1.1, 2.4, 3.6, 4.8, 6.0]
-    ronds, etiquettes, vu = [], [], set()
+    x0, y0 = 40, 92
+    pas = (L - 80) / semaines
+    cote = pas - 3
+    gamme = [t["fond3"], t["bord"], t["fort"], t["doux"], t["texte"]]
+    cases, etiquettes, vu = [], [], set()
     for k, j in enumerate(jours):
         s, d = divmod(k + decalage, 7)
-        cx, cy = x0 + s * pas + pas / 2, y0 + d * pas + pas / 2
-        couleur = t["fort"] if j["niveau"] == 0 else t["texte"]
-        ronds.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rayons[j["niveau"]]}" fill="{couleur}" '
-                     f'style="animation-delay:{s * 0.018:.2f}s"/>')
+        cases.append(f'<rect x="{x0 + s * pas:.1f}" y="{y0 + d * pas:.1f}" width="{cote:.1f}" height="{cote:.1f}" rx="2.5" '
+                     f'fill="{gamme[j["niveau"]]}" style="animation-delay:{s * 0.02:.2f}s"/>')
         date = dt.date.fromisoformat(j["date"])
-        if date.day <= 7 and d == 0 and (date.year, date.month) not in vu and s < semaines - 2:
+        # Pas d'étiquette de mois sous la légende, à droite.
+        if date.day <= 7 and d == 0 and (date.year, date.month) not in vu and x0 + s * pas < L - 230:
             vu.add((date.year, date.month))
-            etiquettes.append(texte(MONO, MOIS[date.month - 1], 9.5, x0 + s * pas + 2, y0 - 10, t["sourd"], interlettre=0.06))
-    total = f'{CONTRIB["total"]:,}'.replace(",", " ")
+            etiquettes.append(texte(MONO, MOIS[date.month - 1].capitalize(), 10, x0 + s * pas, y0 + 7 * pas + 16, t["sourd"]))
+    bas = y0 + 7 * pas + 16
+    # Légende « moins … plus », comme sur le graphe de GitHub.
+    xl = L - 40 - MONO.largeur("plus", 10)
+    legende = [texte(MONO, "plus", 10, xl, bas, t["sourd"])]
+    xl -= 8
+    for couleur in reversed(gamme):
+        xl -= 11
+        legende.append(f'<rect x="{xl:.1f}" y="{bas - 9}" width="9" height="9" rx="2" fill="{couleur}"/>')
+        xl -= 3
+    legende.append(texte(MONO, "moins", 10, xl - 5, bas, t["sourd"], "end"))
+    h = int(bas + 26)
+    total = f'{CONTRIB["total"]:,}'.replace(",", "\u202f")
     corps = [
         cadre(L, h, t),
-        texte(MONO, "CONTRIBUTIONS · 12 DERNIERS MOIS", 11, x0 + 2, 44, t["sourd"], interlettre=0.08),
-        texte(MOYEN, f"{total} contributions", 15, L - 42, 45, t["texte"], "end"),
-        "".join(etiquettes), f'<g class="p">{"".join(ronds)}</g>',
+        texte(TITRE, "CHAQUE JOUR,", 24, x0, 56, t["texte"], interlettre=-0.01),
+        texte(TITRE, "EN CASES", 24, x0 + TITRE.largeur("CHAQUE JOUR, ", 24, -0.01), 56, t["sourd"], interlettre=-0.01),
+        texte(MONO, f"{total} CONTRIBUTIONS · ACTUALISÉ CHAQUE JOUR", 10.5, L - 40, 54, t["sourd"], "end", 0.08),
+        f'<g class="p">{"".join(cases)}</g>', "".join(etiquettes), "".join(legende),
     ]
-    style = (".p circle{transform-box:fill-box;transform-origin:center;animation:pousse .6s cubic-bezier(.23,1,.32,1) both}"
-             "@keyframes pousse{from{transform:scale(0)}}")
-    return svg(L, h, f"Contributions GitHub des 12 derniers mois : {CONTRIB['total']}, en trame de points.", "".join(corps), style)
-
-
-def activite(t):
-    h = 200
-    mois = CONTRIB["mois"][-12:]
-    haut = max(m["n"] for m in mois) or 1
-    x0, base, pas = 40, 160, 34
-    colonnes = []
-    for i, m in enumerate(mois):
-        # Chaque mois est une pile de points, comme la trame : un point pour une part du record.
-        n = round(m["n"] / haut * 9) if m["n"] else 0
-        cx = x0 + i * pas + 8
-        ronds = "".join(f'<circle cx="{cx}" cy="{base - 6 - k * 10}" r="3.6"/>' for k in range(n))
-        if not n:
-            ronds = f'<circle cx="{cx}" cy="{base - 6}" r="1.2" fill="{t["fort"]}"/>'
-        colonnes.append(f'<g style="animation-delay:{i * 0.05:.2f}s">{ronds}</g>')
-        mo = int(m["mois"][5:])
-        colonnes.append(texte(MONO, MOIS[mo - 1][:1], 9.5, cx, base + 18, t["sourd"], "middle"))
-    meilleur = dt.date.fromisoformat(CONTRIB["meilleur_jour"]["date"])
-    chiffres = [
-        ("SÉRIE ACTUELLE", str(CONTRIB["serie_actuelle"]), "jours d’affilée"),
-        ("RECORD", str(CONTRIB["serie_longue"]), "jours d’affilée"),
-        ("MEILLEUR JOUR", str(CONTRIB["meilleur_jour"]["n"]), f"le {meilleur.day} {MOIS[meilleur.month - 1].lower()}. {meilleur.year}".replace("mai.", "mai")),
-    ]
-    blocs = [f'<line x1="470" y1="36" x2="470" y2="{h - 36}" stroke="{t["trait"]}"/>']
-    for i, (etiquette, valeur, sous) in enumerate(chiffres):
-        x = 500 + i * 120
-        blocs.append(texte(MONO, etiquette, 9.5, x, 62, t["sourd"], interlettre=0.08))
-        blocs.append(texte(TITRE, valeur, 40, x, 118, t["texte"], interlettre=-0.02))
-        blocs.append(texte(CORPS, sous, 12.5, x, 142, t["doux"]))
-    corps = [cadre(L, h, t), texte(MONO, "ACTIVITÉ PAR MOIS", 11, x0, 44, t["sourd"], interlettre=0.08),
-             f'<g class="m" fill="{t["texte"]}">{"".join(colonnes)}</g>', "".join(blocs)]
-    style = (".m g{animation:monte .8s cubic-bezier(.23,1,.32,1) both}"
-             "@keyframes monte{from{opacity:0;transform:translateY(8px)}}")
-    return svg(L, h, f"Série actuelle {CONTRIB['serie_actuelle']} jours, record {CONTRIB['serie_longue']} jours.", "".join(corps), style)
+    style = (".p rect{animation:apparait .7s cubic-bezier(.23,1,.32,1) both}"
+             "@keyframes apparait{from{opacity:0}}")
+    return svg(L, h, f"Contributions GitHub des 12 derniers mois : {CONTRIB['total']}, actualisées chaque jour.", "".join(corps), style)
 
 
 def tuile(t, tu):
@@ -338,7 +315,6 @@ def readme():
         '<div align="center">',
         image("hero", f'{" ".join(PROFIL["nom"]).title()}. {PROFIL["metier"]}, {PROFIL["situation"]}.', lien=site) + "<br>",
         image("contributions", "Contributions des 12 derniers mois, en trame de points") + "<br>",
-        image("activite", "Activité par mois, série en cours et record") + "<br>",
         "".join(image(f"tuile-{i + 1}", f'{tu["etiquette"]} : {tu["valeur"]}', tiers, tu["lien"])
                 for i, tu in enumerate(PROFIL["tuiles"])) + "<br>",
         image("titre-projets", "Projets", lien=f"{site}/#projets") + "<br>",
@@ -354,7 +330,7 @@ def readme():
         "",
         '<p align="center">',
         f'<a href="{site}">antlabs.fr</a> &nbsp;·&nbsp; <a href="{PROFIL["linkedin"]}">LinkedIn</a> &nbsp;·&nbsp; '
-        f'<a href="{site}/cv-antoine-rioul.pdf">CV</a> &nbsp;·&nbsp; <a href="mailto:{PROFIL["email"]}">{PROFIL["email"]}</a>',
+        f'<a href="mailto:{PROFIL["email"]}">{PROFIL["email"]}</a>',
         "</p>",
         "",
     ]
@@ -366,10 +342,9 @@ def main():
     for cle, t in THEMES.items():
         ecrire(f"hero-{cle}.svg", hero(t))
         ecrire(f"contributions-{cle}.svg", grille(t))
-        ecrire(f"activite-{cle}.svg", activite(t))
         for i, tu in enumerate(PROFIL["tuiles"]):
             ecrire(f"tuile-{i + 1}-{cle}.svg", tuile(t, tu))
-        ecrire(f"titre-projets-{cle}.svg", titre_section(t, "PROJETS", "LE RESTE SUR ANTLABS.FR"))
+        ecrire(f"titre-projets-{cle}.svg", titre_section(t, "PROJETS", "LES AUTRES SUR ANTLABS.FR"))
         for i, p in enumerate(PROFIL["projets"]):
             ecrire(f"projet-{i + 1}-{cle}.svg", projet(t, p))
         ecrire(f"titre-competences-{cle}.svg", titre_section(t, "COMPÉTENCES", "EN COURS, EN ENTREPRISE, EN PROJET"))
