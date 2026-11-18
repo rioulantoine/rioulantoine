@@ -212,7 +212,7 @@ def grille(t):
         cadre(L, h, t),
         texte(TITRE, "CHAQUE JOUR,", 24, x0, 56, t["texte"], interlettre=-0.01),
         texte(TITRE, "EN CASES", 24, x0 + TITRE.largeur("CHAQUE JOUR, ", 24, -0.01), 56, t["sourd"], interlettre=-0.01),
-        texte(MONO, f"{total} CONTRIBUTIONS · ACTUALISÉ CHAQUE JOUR", 10.5, L - 40, 54, t["sourd"], "end", 0.08),
+        texte(MONO, f"{total} CONTRIBUTIONS - ACTUALISÉ CHAQUE JOUR", 10.5, L - 40, 54, t["sourd"], "end", 0.08),
         f'<g class="p">{"".join(cases)}</g>', "".join(etiquettes), "".join(legende),
     ]
     style = (".p rect{animation:apparait .7s cubic-bezier(.23,1,.32,1) both}"
@@ -254,7 +254,7 @@ def projet(t, p):
     pub = bool(p["depot"])
     x = m + 22
     corps = [cadre(w, h, t, m),
-             texte(MONO, f'{p["annee"]} · {"CODE SUR GITHUB" if pub else "PAGE DU PROJET"}', 9.5, x + 2, 38, t["sourd"], interlettre=0.08),
+             texte(MONO, f'{p["annee"]} - {"CODE SUR GITHUB" if pub else "PAGE DU PROJET"}', 9.5, x + 2, 38, t["sourd"], interlettre=0.08),
              fleche(w - m - 34, 28, t["sourd"], 11)]
     taille = 19 if TITRE.largeur(p["titre"].upper(), 19) < w - 60 else 15
     corps.append(texte(TITRE, p["titre"].upper(), taille, x, 76, t["texte"], interlettre=-0.01))
@@ -341,7 +341,7 @@ def readme():
         "</div>",
         "",
         '<p align="center">',
-        f'<a href="{site}">antlabs.fr</a> &nbsp;·&nbsp; <a href="{PROFIL["linkedin"]}">LinkedIn</a> &nbsp;·&nbsp; '
+        f'<a href="{site}">antlabs.fr</a> &nbsp;-&nbsp; <a href="{PROFIL["linkedin"]}">LinkedIn</a> &nbsp;-&nbsp; '
         f'<a href="mailto:{PROFIL["email"]}">{PROFIL["email"]}</a>',
         "</p>",
         "",
