@@ -20,13 +20,13 @@
       "lien": "https://antlabs.fr/#projets"
     },
     {
-      "etiquette": "COMPÉTENCES",
-      "valeur": "50+",
+      "etiquette": "SÉRIE EN COURS",
+      "valeur": "{serie}",
       "texte": [
-        "langages, outils et méthodes",
-        "utilisés au quotidien"
+        "jours de code d’affilée,",
+        "record : {record} jours"
       ],
-      "lien": "https://antlabs.fr/#competences"
+      "lien": "https://github.com/rioulantoine"
     },
     {
       "etiquette": "PARCOURS",

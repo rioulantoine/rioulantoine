@@ -219,7 +219,13 @@ def grille(t):
     return svg(L, h, f"Contributions GitHub des 12 derniers mois : {CONTRIB['total']}, actualisées chaque jour.", "".join(corps), style)
 
 
+def remplir(chaine):
+    # {serie} et {record} viennent des contributions : la tuile change chaque jour.
+    return chaine.replace("{serie}", str(CONTRIB["serie_actuelle"])).replace("{record}", str(CONTRIB["serie_longue"]))
+
+
 def tuile(t, tu):
+    tu = {**tu, "valeur": remplir(tu["valeur"]), "texte": [remplir(x) for x in tu["texte"]]}
     w, h, m = L / 3, 170, 5
     corps = [
         cadre(w, h, t, m),
@@ -315,7 +321,7 @@ def readme():
         '<div align="center">',
         image("hero", f'{" ".join(PROFIL["nom"]).title()}. {PROFIL["metier"]}, {PROFIL["situation"]}.', lien=site) + "<br>",
         image("contributions", "Contributions des 12 derniers mois, en trame de points") + "<br>",
-        "".join(image(f"tuile-{i + 1}", f'{tu["etiquette"]} : {tu["valeur"]}', tiers, tu["lien"])
+        "".join(image(f"tuile-{i + 1}", f'{tu["etiquette"]} : {remplir(tu["valeur"])}', tiers, tu["lien"])
                 for i, tu in enumerate(PROFIL["tuiles"])) + "<br>",
         image("titre-projets", "Projets", lien=f"{site}/#projets") + "<br>",
     ]
