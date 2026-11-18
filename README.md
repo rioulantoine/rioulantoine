@@ -1,22 +1,17 @@
-## Compétences
-
+<!-- Généré par scripts/cartes.py à partir de donnees/profil.json : modifier ces fichiers, pas celui-ci.
+     Les cartes sont redessinées chaque jour par .github/workflows/cartes.yml. -->
 <div align="center">
-
-| Catégorie | Technologies |
-|:--|:--|
-| **Langages** | ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![C](https://img.shields.io/badge/C-00599C?style=flat-square&logo=c&logoColor=white) ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white) ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white) |
-| **Développement web** | ![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS](https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) ![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white) ![Symfony](https://img.shields.io/badge/Symfony-000000?style=flat-square&logo=symfony&logoColor=white) |
-| **Bases de données** | ![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square) ![NoSQL](https://img.shields.io/badge/NoSQL-47A248?style=flat-square) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white) ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white) ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch&logoColor=white) ![MCD](https://img.shields.io/badge/MCD-555555?style=flat-square) ![MLD](https://img.shields.io/badge/MLD-555555?style=flat-square) |
-| **Versioning** | ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white) ![GitLab](https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=gitlab&logoColor=white) |
-
+<a href="https://antlabs.fr"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/hero-sombre.svg" /><img src="./cartes/hero-clair.svg" width="100%" alt="Antoine Rioul. Développeur en alternance, BUT Informatique, 3e année · VEZIM, Rennes." /></picture></a><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/contributions-sombre.svg" /><img src="./cartes/contributions-clair.svg" width="100%" alt="Contributions des 12 derniers mois, en trame de points" /></picture><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/activite-sombre.svg" /><img src="./cartes/activite-clair.svg" width="100%" alt="Activité par mois, série en cours et record" /></picture><br>
+<a href="https://antlabs.fr/#projets"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/tuile-1-sombre.svg" /><img src="./cartes/tuile-1-clair.svg" width="33.333%" alt="PROJETS : 16" /></picture></a><a href="https://antlabs.fr/#competences"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/tuile-2-sombre.svg" /><img src="./cartes/tuile-2-clair.svg" width="33.333%" alt="COMPÉTENCES : 50+" /></picture></a><a href="https://antlabs.fr/#parcours"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/tuile-3-sombre.svg" /><img src="./cartes/tuile-3-clair.svg" width="33.333%" alt="PARCOURS : BAC+3" /></picture></a><br>
+<a href="https://antlabs.fr/#projets"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/titre-projets-sombre.svg" /><img src="./cartes/titre-projets-clair.svg" width="100%" alt="Projets" /></picture></a><br>
+<a href="https://antlabs.fr/projets/antcloud/"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/projet-1-sombre.svg" /><img src="./cartes/projet-1-clair.svg" width="33.333%" alt="AntCloud : Un drive auto-hébergé, pour garder ses fichiers chez soi." /></picture></a><a href="https://antlabs.fr/projets/homelab/"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/projet-2-sombre.svg" /><img src="./cartes/projet-2-clair.svg" width="33.333%" alt="Homelab : Mon serveur à la maison, entièrement décrit en Ansible." /></picture></a><a href="https://antlabs.fr/projets/acrofy/"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/projet-3-sombre.svg" /><img src="./cartes/projet-3-clair.svg" width="33.333%" alt="Acrofy : Créer des formulaires PDF à remplir, à la souris." /></picture></a><br>
+<a href="https://antlabs.fr/projets/ai-game-master/"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/projet-4-sombre.svg" /><img src="./cartes/projet-4-clair.svg" width="33.333%" alt="AI Game Master : Un jeu de rôle multijoueur dont le maître du jeu est une IA." /></picture></a><a href="https://github.com/rioulantoine/EcoGestUM"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/projet-5-sombre.svg" /><img src="./cartes/projet-5-clair.svg" width="33.333%" alt="EcoGestUM : Donner une seconde vie au matériel de l’université." /></picture></a><a href="https://github.com/rioulantoine/Logistico-train"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/projet-6-sombre.svg" /><img src="./cartes/projet-6-clair.svg" width="33.333%" alt="Logistico-train : Toute une application ferroviaire, déployée en conteneurs." /></picture></a><br>
+<a href="https://antlabs.fr/#competences"><picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/titre-competences-sombre.svg" /><img src="./cartes/titre-competences-clair.svg" width="100%" alt="Compétences" /></picture></a><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./cartes/competences-sombre.svg" /><img src="./cartes/competences-clair.svg" width="100%" alt="Compétences : Java, Python, C, Kotlin, Bash, HTML, CSS, JavaScript, Vue.js, React, Node.js, PHP, Symfony, SQL, NoSQL, MySQL, SQLite, Redis, Elasticsearch, MCD, MLD, Git, GitHub, GitLab" /></picture>
 </div>
 
----
-
-## Statistiques
-
-<div align="center">
-
-<img height="170" alt="Série de contributions" src="https://streak-stats.demolab.com?user=rioulantoine&hide_border=true&theme=tokyonight" />
-
-</div>
+<p align="center">
+<a href="https://antlabs.fr">antlabs.fr</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/antoine-rioul-9a13b6339/">LinkedIn</a> &nbsp;·&nbsp; <a href="https://antlabs.fr/cv-antoine-rioul.pdf">CV</a> &nbsp;·&nbsp; <a href="mailto:rioul.antoine@gmail.com">rioul.antoine@gmail.com</a>
+</p>

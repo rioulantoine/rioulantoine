@@ -1,0 +1,167 @@
+{
+  "utilisateur": "rioulantoine",
+  "site": "https://antlabs.fr",
+  "linkedin": "https://www.linkedin.com/in/antoine-rioul-9a13b6339/",
+  "email": "rioul.antoine@gmail.com",
+  "nom": [
+    "ANTOINE",
+    "RIOUL"
+  ],
+  "metier": "Développeur en alternance",
+  "situation": "BUT Informatique, 3e année · VEZIM, Rennes",
+  "tuiles": [
+    {
+      "etiquette": "PROJETS",
+      "valeur": "16",
+      "texte": [
+        "projets, du jeu Android",
+        "au serveur à la maison"
+      ],
+      "lien": "https://antlabs.fr/#projets"
+    },
+    {
+      "etiquette": "COMPÉTENCES",
+      "valeur": "50+",
+      "texte": [
+        "langages, outils et méthodes",
+        "utilisés au quotidien"
+      ],
+      "lien": "https://antlabs.fr/#competences"
+    },
+    {
+      "etiquette": "PARCOURS",
+      "valeur": "BAC+3",
+      "texte": [
+        "BUT Informatique,",
+        "3e année en alternance"
+      ],
+      "lien": "https://antlabs.fr/#parcours"
+    }
+  ],
+  "projets": [
+    {
+      "titre": "AntCloud",
+      "annee": "2026",
+      "resume": "Un drive auto-hébergé, pour garder ses fichiers chez soi.",
+      "stack": [
+        "Vue 3",
+        "Python",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "depot": "",
+      "page": "https://antlabs.fr/projets/antcloud/"
+    },
+    {
+      "titre": "Homelab",
+      "annee": "2026",
+      "resume": "Mon serveur à la maison, entièrement décrit en Ansible.",
+      "stack": [
+        "Ansible",
+        "Proxmox",
+        "Docker",
+        "Nginx"
+      ],
+      "depot": "",
+      "page": "https://antlabs.fr/projets/homelab/"
+    },
+    {
+      "titre": "Acrofy",
+      "annee": "2026",
+      "resume": "Créer des formulaires PDF à remplir, à la souris.",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind"
+      ],
+      "depot": "",
+      "page": "https://antlabs.fr/projets/acrofy/"
+    },
+    {
+      "titre": "AI Game Master",
+      "annee": "2026",
+      "resume": "Un jeu de rôle multijoueur dont le maître du jeu est une IA.",
+      "stack": [
+        "React",
+        "NestJS",
+        "Prisma",
+        "Docker"
+      ],
+      "depot": "",
+      "page": "https://antlabs.fr/projets/ai-game-master/"
+    },
+    {
+      "titre": "EcoGestUM",
+      "annee": "2025",
+      "resume": "Donner une seconde vie au matériel de l’université.",
+      "stack": [
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "Figma"
+      ],
+      "depot": "https://github.com/rioulantoine/EcoGestUM",
+      "page": "https://antlabs.fr/projets/ecogestum/"
+    },
+    {
+      "titre": "Logistico-train",
+      "annee": "2026",
+      "resume": "Toute une application ferroviaire, déployée en conteneurs.",
+      "stack": [
+        "Docker",
+        "Nginx",
+        "Spring",
+        "Flask"
+      ],
+      "depot": "https://github.com/rioulantoine/Logistico-train",
+      "page": "https://antlabs.fr/projets/logistico-train/"
+    }
+  ],
+  "competences": [
+    {
+      "titre": "LANGAGES",
+      "items": [
+        "Java",
+        "Python",
+        "C",
+        "Kotlin",
+        "Bash"
+      ]
+    },
+    {
+      "titre": "WEB",
+      "items": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Vue.js",
+        "React",
+        "Node.js",
+        "PHP",
+        "Symfony"
+      ]
+    },
+    {
+      "titre": "DONNÉES",
+      "items": [
+        "SQL",
+        "NoSQL",
+        "MySQL",
+        "SQLite",
+        "Redis",
+        "Elasticsearch",
+        "MCD",
+        "MLD"
+      ]
+    },
+    {
+      "titre": "VERSIONING",
+      "items": [
+        "Git",
+        "GitHub",
+        "GitLab"
+      ]
+    }
+  ]
+}
