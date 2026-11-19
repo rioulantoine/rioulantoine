@@ -152,16 +152,17 @@ def trame_filtre(ident, t, rmin, rmax, clair_haut, clair_bas):
         return [int(c[i:i + 2], 16) / 255 for i in (1, 3, 5)]
     haut, bas = rgb(clair_haut), rgb(clair_bas)
     teinte = " ".join(f"0 {h - b_:.3f} 0 0 {b_:.3f}" for h, b_ in zip(haut, bas)) + " 0 0 0 0 1"
+    # Aller-retour sur les 4 premières secondes du mouvement : au-delà, les reliefs s'étirent trop.
     glisse = 'calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" repeatCount="indefinite"'
     return (
         f'<filter id="{ident}" x="0" y="0" width="{L}" height="400" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" '
         f'color-interpolation-filters="sRGB">'
         f'<feTurbulence type="fractalNoise" baseFrequency=".0045 .007" numOctaves="3" seed="7" x="-700" y="-400" width="2300" height="1200" result="b1"/>'
-        f'<feOffset in="b1" result="o1"><animate attributeName="dx" values="0;520;0" dur="38s" {glisse}/>'
-        f'<animate attributeName="dy" values="0;-160;0" dur="29s" {glisse}/></feOffset>'
+        f'<feOffset in="b1" result="o1"><animate attributeName="dx" values="0;43.4;0" dur="8s" {glisse}/>'
+        f'<animate attributeName="dy" values="0;-23.7;0" dur="8s" {glisse}/></feOffset>'
         f'<feTurbulence type="fractalNoise" baseFrequency=".009 .006" numOctaves="2" seed="21" x="-700" y="-400" width="2300" height="1200" result="b2"/>'
-        f'<feOffset in="b2" result="o2"><animate attributeName="dx" values="0;-480;0" dur="33s" {glisse}/>'
-        f'<animate attributeName="dy" values="0;140;0" dur="41s" {glisse}/></feOffset>'
+        f'<feOffset in="b2" result="o2"><animate attributeName="dx" values="0;-54;0" dur="8s" {glisse}/>'
+        f'<animate attributeName="dy" values="0;9.9;0" dur="8s" {glisse}/></feOffset>'
         # Les deux reliefs se plient l'un sur l'autre, puis on étire le contraste : de vraies crêtes et de vrais creux.
         f'<feComposite in="o1" in2="o2" operator="arithmetic" k2=".55" k3=".45" result="m"/>'
         f'<feComponentTransfer in="m" result="vague"><feFuncR type="linear" slope="2.6" intercept="-.8"/>'
