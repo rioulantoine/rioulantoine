@@ -140,39 +140,69 @@ def coin_points(x, y, t, pas=7, n=6):
 
 # --- Cartes -----------------------------------------------------------------------------
 
+def trame_filtre(ident, t, rmin, rmax, clair_haut, clair_bas):
+    """Une trame de points vivante, sans script : la taille de chaque point suit un relief de bruit
+    qui dérive lentement, comme le fond en points du portfolio (src/scripts/points.ts).
+
+    Le motif #champ donne, dans chaque case, la distance au centre (1 au centre, 0 au bord).
+    Deux bruits qui glissent en sens contraires font les vagues ; un point apparaît là où
+    distance + rayon(vague) dépasse 1. Un troisième bruit, plus lent, nuance la teinte des points.
+    """
+    def rgb(c):
+        return [int(c[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    haut, bas = rgb(clair_haut), rgb(clair_bas)
+    teinte = " ".join(f"0 {h - b_:.3f} 0 0 {b_:.3f}" for h, b_ in zip(haut, bas)) + " 0 0 0 0 1"
+    glisse = 'calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" repeatCount="indefinite"'
+    return (
+        f'<filter id="{ident}" x="0" y="0" width="{L}" height="400" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" '
+        f'color-interpolation-filters="sRGB">'
+        f'<feTurbulence type="fractalNoise" baseFrequency=".0045 .007" numOctaves="3" seed="7" x="-700" y="-400" width="2300" height="1200" result="b1"/>'
+        f'<feOffset in="b1" result="o1"><animate attributeName="dx" values="0;520;0" dur="38s" {glisse}/>'
+        f'<animate attributeName="dy" values="0;-160;0" dur="29s" {glisse}/></feOffset>'
+        f'<feTurbulence type="fractalNoise" baseFrequency=".009 .006" numOctaves="2" seed="21" x="-700" y="-400" width="2300" height="1200" result="b2"/>'
+        f'<feOffset in="b2" result="o2"><animate attributeName="dx" values="0;-480;0" dur="33s" {glisse}/>'
+        f'<animate attributeName="dy" values="0;140;0" dur="41s" {glisse}/></feOffset>'
+        # Les deux reliefs se plient l'un sur l'autre, puis on étire le contraste : de vraies crêtes et de vrais creux.
+        f'<feComposite in="o1" in2="o2" operator="arithmetic" k2=".55" k3=".45" result="m"/>'
+        f'<feComponentTransfer in="m" result="vague"><feFuncR type="linear" slope="2.6" intercept="-.8"/>'
+        f'<feFuncG type="linear" slope="2.2" intercept="-.6"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer>'
+        f'<feComposite in="SourceGraphic" in2="vague" operator="arithmetic" k2="1" k3="{rmax - rmin:.3f}" k4="{rmin - 1:.3f}" result="v"/>'
+        f'<feColorMatrix in="v" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  5 0 0 0 0" result="points"/>'
+        f'<feColorMatrix in="vague" values="{teinte}" result="couleur"/>'
+        f'<feComposite in="couleur" in2="points" operator="in"/>'
+        f'</filter>'
+    )
+
+
 def hero(t):
     h = 300
-    pas = 10
-    colonnes = []
-    # La trame de la bannière LinkedIn : points crème, gros à gauche, qui s'effacent avant le nom.
-    for ci, x in enumerate(range(12, 600, pas)):
-        ronds = []
-        for y in range(6, h, pas):
-            onde = 0.12 * math.sin(y / 38 + x / 90) + 0.08 * math.sin(y / 17 - x / 55)
-            force = max(0.0, 1 - x / 560 + onde)
-            r = 3.2 * force ** 1.6
-            if r > 0.35:
-                ronds.append(f'<circle cx="{x}" cy="{y}" r="{r:.2f}"/>')
-        if ronds:
-            colonnes.append(f'<g class="c" style="animation-delay:{-ci * 0.09:.2f}s">{"".join(ronds)}</g>')
-    trame = f'<g clip-path="url(#bord)" fill="{t["texte"]}" opacity=".55">{"".join(colonnes)}</g>'
+    pas = 7
     nom1, nom2 = PROFIL["nom"]
+    lettres = (TITRE.trace(nom1, 70, L - 40, 150, "end", -0.02) + TITRE.trace(nom2, 70, L - 40, 213, "end", -0.02))
     corps = [
-        f'<defs><clipPath id="bord"><rect x="6" y="1" width="{L - 12}" height="{h - 2}" rx="17"/></clipPath>'
-        f'<linearGradient id="voile" x1="0" x2="1"><stop offset=".35" stop-color="{t["fond"]}" stop-opacity="0"/>'
-        f'<stop offset=".7" stop-color="{t["fond"]}"/></linearGradient></defs>',
-        cadre(L, h, t), trame,
-        f'<rect x="6" y="1" width="{L - 12}" height="{h - 2}" rx="17" fill="url(#voile)"/>',
+        '<defs>'
+        f'<radialGradient id="g"><stop offset="0" stop-color="#f00"/><stop offset="1" stop-color="#000"/></radialGradient>'
+        f'<pattern id="champ" width="{pas}" height="{pas}" patternUnits="userSpaceOnUse">'
+        f'<rect width="{pas}" height="{pas}" fill="#000"/><circle cx="{pas / 2}" cy="{pas / 2}" r="{pas / 2}" fill="url(#g)"/></pattern>'
+        + trame_filtre("fond", t, 0.0, 0.78, t["texte"], t["fort"])
+        + trame_filtre("lettres", t, 0.46, 0.82, t["texte"], t["doux"])
+        + f'<linearGradient id="fondu" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset=".42" stop-color="#fff" stop-opacity=".55"/>'
+        f'<stop offset=".7" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity=".05"/></linearGradient>'
+        f'<mask id="m-fond"><rect width="{L}" height="{h}" fill="url(#fondu)"/><path fill="#000" d="{lettres}"/></mask>'
+        f'<mask id="m-lettres"><path fill="#fff" d="{lettres}"/></mask>'
+        f'<clipPath id="bord"><rect x="6" y="1" width="{L - 12}" height="{h - 2}" rx="17"/></clipPath>'
+        '</defs>',
+        cadre(L, h, t),
+        # Le fond : dense à gauche comme la bannière LinkedIn, presque éteint sous le nom.
+        f'<g clip-path="url(#bord)" mask="url(#m-fond)" opacity=".7"><rect width="{L}" height="{h}" fill="url(#champ)" filter="url(#fond)"/></g>',
+        # Le nom en points, comme l'accueil du portfolio : les vagues le traversent, il reste lisible.
+        f'<g class="n" mask="url(#m-lettres)"><rect width="{L}" height="{h}" fill="url(#champ)" filter="url(#lettres)"/></g>',
         texte(MONO, PROFIL["site"].replace("https://", "").upper(), 11, L - 44, 46, t["sourd"], "end", 0.08),
-        texte(TITRE, nom1, 66, L - 40, 148, t["texte"], "end", -0.02, "n"),
-        texte(TITRE, nom2, 66, L - 40, 208, t["texte"], "end", -0.02, "n"),
-        texte(MOYEN, PROFIL["metier"], 17, L - 44, 248, t["texte"], "end"),
-        texte(CORPS, PROFIL["situation"], 14, L - 44, 270, t["doux"], "end"),
+        texte(MOYEN, PROFIL["metier"], 17, L - 44, 250, t["texte"], "end"),
+        texte(CORPS, PROFIL["situation"], 14, L - 44, 272, t["doux"], "end"),
     ]
-    style = (".c{animation:respire 7s ease-in-out infinite}"
-             "@keyframes respire{0%,100%{opacity:.55}50%{opacity:1}}"
-             ".n{animation:entre .9s cubic-bezier(.23,1,.32,1) both}"
-             "@keyframes entre{from{opacity:0;transform:translateY(10px)}}")
+    style = (".n{animation:entre 1.2s cubic-bezier(.23,1,.32,1) both}"
+             "@keyframes entre{from{opacity:0}}")
     return svg(L, h, f'{nom1.title()} {nom2.title()}. {PROFIL["metier"]}, {PROFIL["situation"]}.', "".join(corps), style)
 
 
