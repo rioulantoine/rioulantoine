@@ -178,31 +178,29 @@ def hero(t):
     h = 300
     pas = 7
     nom1, nom2 = PROFIL["nom"]
-    lettres = (TITRE.trace(nom1, 70, L - 40, 150, "end", -0.02) + TITRE.trace(nom2, 70, L - 40, 213, "end", -0.02))
+    lettres = (TITRE.trace(nom1, 66, L - 40, 148, "end", -0.02) + TITRE.trace(nom2, 66, L - 40, 208, "end", -0.02))
     corps = [
         '<defs>'
         f'<radialGradient id="g"><stop offset="0" stop-color="#f00"/><stop offset="1" stop-color="#000"/></radialGradient>'
         f'<pattern id="champ" width="{pas}" height="{pas}" patternUnits="userSpaceOnUse">'
         f'<rect width="{pas}" height="{pas}" fill="#000"/><circle cx="{pas / 2}" cy="{pas / 2}" r="{pas / 2}" fill="url(#g)"/></pattern>'
         + trame_filtre("fond", t, 0.0, 0.78, t["texte"], t["fort"])
-        + trame_filtre("lettres", t, 0.46, 0.82, t["texte"], t["doux"])
         + f'<linearGradient id="fondu" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset=".42" stop-color="#fff" stop-opacity=".55"/>'
         f'<stop offset=".7" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity=".05"/></linearGradient>'
         f'<mask id="m-fond"><rect width="{L}" height="{h}" fill="url(#fondu)"/><path fill="#000" d="{lettres}"/></mask>'
-        f'<mask id="m-lettres"><path fill="#fff" d="{lettres}"/></mask>'
         f'<clipPath id="bord"><rect x="6" y="1" width="{L - 12}" height="{h - 2}" rx="17"/></clipPath>'
         '</defs>',
         cadre(L, h, t),
         # Le fond : dense à gauche comme la bannière LinkedIn, presque éteint sous le nom.
         f'<g clip-path="url(#bord)" mask="url(#m-fond)" opacity=".7"><rect width="{L}" height="{h}" fill="url(#champ)" filter="url(#fond)"/></g>',
-        # Le nom en points, comme l'accueil du portfolio : les vagues le traversent, il reste lisible.
-        f'<g class="n" mask="url(#m-lettres)"><rect width="{L}" height="{h}" fill="url(#champ)" filter="url(#lettres)"/></g>',
+        # Le nom en plein, net au-dessus des vagues.
+        f'<path class="n" fill="{t["texte"]}" d="{lettres}"/>',
         texte(MONO, PROFIL["site"].replace("https://", "").upper(), 11, L - 44, 46, t["sourd"], "end", 0.08),
         texte(MOYEN, PROFIL["metier"], 17, L - 44, 250, t["texte"], "end"),
         texte(CORPS, PROFIL["situation"], 14, L - 44, 272, t["doux"], "end"),
     ]
-    style = (".n{animation:entre 1.2s cubic-bezier(.23,1,.32,1) both}"
-             "@keyframes entre{from{opacity:0}}")
+    style = (".n{animation:entre .9s cubic-bezier(.23,1,.32,1) both}"
+             "@keyframes entre{from{opacity:0;transform:translateY(10px)}}")
     return svg(L, h, f'{nom1.title()} {nom2.title()}. {PROFIL["metier"]}, {PROFIL["situation"]}.', "".join(corps), style)
 
 
