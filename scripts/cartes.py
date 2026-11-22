@@ -155,7 +155,8 @@ def trame_filtre(ident, t, rmin, rmax, clair_haut, clair_bas):
     # Aller-retour sur les 4 premières secondes du mouvement : au-delà, les reliefs s'étirent trop.
     glisse = 'calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" repeatCount="indefinite"'
     return (
-        f'<filter id="{ident}" x="0" y="0" width="{L}" height="400" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" '
+        # La zone du filtre déborde largement de la carte : sinon le bruit décalé laisse des bandes vides.
+        f'<filter id="{ident}" x="-700" y="-400" width="2300" height="1200" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" '
         f'color-interpolation-filters="sRGB">'
         f'<feTurbulence type="fractalNoise" baseFrequency=".0045 .007" numOctaves="3" seed="7" x="-700" y="-400" width="2300" height="1200" result="b1"/>'
         f'<feOffset in="b1" result="o1"><animate attributeName="dx" values="0;43.4;0" dur="8s" {glisse}/>'
