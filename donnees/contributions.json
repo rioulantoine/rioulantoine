@@ -1,8 +1,8 @@
 {
- "genere": "2026-11-22T13:27:51Z",
- "total": 1182,
- "jours_actifs": 100,
- "serie_actuelle": 0,
+ "genere": "2026-11-23T13:46:41Z",
+ "total": 1184,
+ "jours_actifs": 101,
+ "serie_actuelle": 1,
  "serie_longue": 8,
  "meilleur_jour": {
   "date": "2026-11-15",
@@ -59,7 +59,7 @@
   },
   {
    "mois": "2026-11",
-   "n": 202
+   "n": 204
   }
  ],
  "jours": [
@@ -1887,6 +1887,11 @@
    "date": "2026-11-22",
    "n": 0,
    "niveau": 0
+  },
+  {
+   "date": "2026-11-23",
+   "n": 2,
+   "niveau": 1
   }
  ]
 }
