@@ -152,16 +152,18 @@ def trame_filtre(ident, t, rmin, rmax, clair_haut, clair_bas):
         return [int(c[i:i + 2], 16) / 255 for i in (1, 3, 5)]
     haut, bas = rgb(clair_haut), rgb(clair_bas)
     teinte = " ".join(f"0 {h - b_:.3f} 0 0 {b_:.3f}" for h, b_ in zip(haut, bas)) + " 0 0 0 0 1"
+    # Aller-retour sur les 4 premières secondes du mouvement : au-delà, les reliefs s'étirent trop.
     glisse = 'calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" repeatCount="indefinite"'
     return (
-        f'<filter id="{ident}" x="0" y="0" width="{L}" height="400" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" '
+        # La zone du filtre déborde largement de la carte : sinon le bruit décalé laisse des bandes vides.
+        f'<filter id="{ident}" x="-700" y="-400" width="2300" height="1200" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" '
         f'color-interpolation-filters="sRGB">'
         f'<feTurbulence type="fractalNoise" baseFrequency=".0045 .007" numOctaves="3" seed="7" x="-700" y="-400" width="2300" height="1200" result="b1"/>'
-        f'<feOffset in="b1" result="o1"><animate attributeName="dx" values="0;520;0" dur="38s" {glisse}/>'
-        f'<animate attributeName="dy" values="0;-160;0" dur="29s" {glisse}/></feOffset>'
+        f'<feOffset in="b1" result="o1"><animate attributeName="dx" values="0;43.4;0" dur="8s" {glisse}/>'
+        f'<animate attributeName="dy" values="0;-23.7;0" dur="8s" {glisse}/></feOffset>'
         f'<feTurbulence type="fractalNoise" baseFrequency=".009 .006" numOctaves="2" seed="21" x="-700" y="-400" width="2300" height="1200" result="b2"/>'
-        f'<feOffset in="b2" result="o2"><animate attributeName="dx" values="0;-480;0" dur="33s" {glisse}/>'
-        f'<animate attributeName="dy" values="0;140;0" dur="41s" {glisse}/></feOffset>'
+        f'<feOffset in="b2" result="o2"><animate attributeName="dx" values="0;-54;0" dur="8s" {glisse}/>'
+        f'<animate attributeName="dy" values="0;9.9;0" dur="8s" {glisse}/></feOffset>'
         # Les deux reliefs se plient l'un sur l'autre, puis on étire le contraste : de vraies crêtes et de vrais creux.
         f'<feComposite in="o1" in2="o2" operator="arithmetic" k2=".55" k3=".45" result="m"/>'
         f'<feComponentTransfer in="m" result="vague"><feFuncR type="linear" slope="2.6" intercept="-.8"/>'
@@ -178,31 +180,29 @@ def hero(t):
     h = 300
     pas = 7
     nom1, nom2 = PROFIL["nom"]
-    lettres = (TITRE.trace(nom1, 70, L - 40, 150, "end", -0.02) + TITRE.trace(nom2, 70, L - 40, 213, "end", -0.02))
+    lettres = (TITRE.trace(nom1, 66, L - 40, 148, "end", -0.02) + TITRE.trace(nom2, 66, L - 40, 208, "end", -0.02))
     corps = [
         '<defs>'
         f'<radialGradient id="g"><stop offset="0" stop-color="#f00"/><stop offset="1" stop-color="#000"/></radialGradient>'
         f'<pattern id="champ" width="{pas}" height="{pas}" patternUnits="userSpaceOnUse">'
         f'<rect width="{pas}" height="{pas}" fill="#000"/><circle cx="{pas / 2}" cy="{pas / 2}" r="{pas / 2}" fill="url(#g)"/></pattern>'
         + trame_filtre("fond", t, 0.0, 0.78, t["texte"], t["fort"])
-        + trame_filtre("lettres", t, 0.46, 0.82, t["texte"], t["doux"])
         + f'<linearGradient id="fondu" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset=".42" stop-color="#fff" stop-opacity=".55"/>'
         f'<stop offset=".7" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity=".05"/></linearGradient>'
         f'<mask id="m-fond"><rect width="{L}" height="{h}" fill="url(#fondu)"/><path fill="#000" d="{lettres}"/></mask>'
-        f'<mask id="m-lettres"><path fill="#fff" d="{lettres}"/></mask>'
         f'<clipPath id="bord"><rect x="6" y="1" width="{L - 12}" height="{h - 2}" rx="17"/></clipPath>'
         '</defs>',
         cadre(L, h, t),
         # Le fond : dense à gauche comme la bannière LinkedIn, presque éteint sous le nom.
         f'<g clip-path="url(#bord)" mask="url(#m-fond)" opacity=".7"><rect width="{L}" height="{h}" fill="url(#champ)" filter="url(#fond)"/></g>',
-        # Le nom en points, comme l'accueil du portfolio : les vagues le traversent, il reste lisible.
-        f'<g class="n" mask="url(#m-lettres)"><rect width="{L}" height="{h}" fill="url(#champ)" filter="url(#lettres)"/></g>',
+        # Le nom en plein, net au-dessus des vagues.
+        f'<path class="n" fill="{t["texte"]}" d="{lettres}"/>',
         texte(MONO, PROFIL["site"].replace("https://", "").upper(), 11, L - 44, 46, t["sourd"], "end", 0.08),
         texte(MOYEN, PROFIL["metier"], 17, L - 44, 250, t["texte"], "end"),
         texte(CORPS, PROFIL["situation"], 14, L - 44, 272, t["doux"], "end"),
     ]
-    style = (".n{animation:entre 1.2s cubic-bezier(.23,1,.32,1) both}"
-             "@keyframes entre{from{opacity:0}}")
+    style = (".n{animation:entre .9s cubic-bezier(.23,1,.32,1) both}"
+             "@keyframes entre{from{opacity:0;transform:translateY(10px)}}")
     return svg(L, h, f'{nom1.title()} {nom2.title()}. {PROFIL["metier"]}, {PROFIL["situation"]}.', "".join(corps), style)
 
 
