@@ -1,8 +1,8 @@
 {
- "genere": "2026-11-25T15:48:22Z",
- "total": 1196,
- "jours_actifs": 102,
- "serie_actuelle": 2,
+ "genere": "2026-11-26T15:28:33Z",
+ "total": 1238,
+ "jours_actifs": 104,
+ "serie_actuelle": 4,
  "serie_longue": 8,
  "meilleur_jour": {
   "date": "2026-11-15",
@@ -59,7 +59,7 @@
   },
   {
    "mois": "2026-11",
-   "n": 216
+   "n": 258
   }
  ],
  "jours": [
@@ -1895,13 +1895,18 @@
   },
   {
    "date": "2026-11-24",
-   "n": 12,
-   "niveau": 2
+   "n": 25,
+   "niveau": 4
   },
   {
    "date": "2026-11-25",
-   "n": 0,
-   "niveau": 0
+   "n": 13,
+   "niveau": 2
+  },
+  {
+   "date": "2026-11-26",
+   "n": 16,
+   "niveau": 2
   }
  ]
 }
